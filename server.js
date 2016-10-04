@@ -2,6 +2,9 @@ const express = require("express");
 const moment = require("moment");
 const app = express();
 
+const port = process.env.PORT || 8080;
+
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/home.html');
 })
@@ -38,6 +41,6 @@ app.use(function(req, res, next) {
   res.status(404).end('Wrong time parameter');
 });
 
-app.listen(8080, function () {
+app.listen(port, function () {
   console.log('App listening on port 8080!');
 });
