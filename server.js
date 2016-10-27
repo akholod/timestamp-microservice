@@ -1,10 +1,9 @@
 const express = require("express");
-var route = require("./routes");
-
+var routes = require("./routes");
 const app = express();
 const port = process.env.PORT || 8080;
 
-route(app);
+app.use('/', routes);
 
 app.use(function(req, res, next) {
   res.status(404).end('Wrong time parameter');

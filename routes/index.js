@@ -1,13 +1,14 @@
 const moment = require("moment");
 const path = require("path");
+const express = require('express');
+const router = express.Router();
 
-module.exports = function (app) {
-    app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     var root = path.parse(__dirname)
     res.sendFile(root.dir + '/public/home.html');
 })
 
-app.get('/:timeParam', function (req, res) {
+router.get('/:timeParam', function (req, res) {
     var timeStr = req.params.timeParam;
     var availableFormats = ["MMMM-DD-YYYY", "MMMM-YYYY-DD", "MM-DD-YYYY", "DD-MM-YYYY", "DD-MM-YY", "MM-DD-YYYY", "YYYY-MM-DD", "YYYY-DD-MM"];
     var output = {
@@ -32,4 +33,4 @@ app.get('/:timeParam', function (req, res) {
         res.end(JSON.stringify(output));
     }
 });
-}
+module.exports = router;
