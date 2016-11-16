@@ -11,26 +11,26 @@ router.get('/', (req, res) => {
 router.get('/:timeParam', function (req, res) {
     var timeStr = req.params.timeParam;
     var availableFormats = ["MMMM-DD-YYYY", "MMMM-YYYY-DD", "MM-DD-YYYY", "DD-MM-YYYY", "DD-MM-YY", "MM-DD-YYYY", "YYYY-MM-DD", "YYYY-DD-MM"];
-    var output = {
-        "unix": "",
-        "natural": ""
-    };
+
     
     if (!isNaN(timeStr)) {
         var time = moment.unix(timeStr);
-        output.unix = parseInt(timeStr);
-        output.natural = time.format('MMMM DD, YYYY');
-        res.end(JSON.stringify(output));
+        res.json({
+            "unix": parseInt(timeStr),
+            "natural": time.format('MMMM DD, YYYY')
+        });
     }
     
     if(moment(timeStr, availableFormats).isValid()) {
-        output.natural = moment(timeStr, availableFormats).format('MMMM DD, YYYY');
-        output.unix = moment(timeStr, availableFormats).unix();
-         res.end(JSON.stringify(output));
+        res.json({
+            "unix": moment(timeStr, availableFormats).unix(),
+            "natural": moment(timeStr, availableFormats).format('MMMM DD, YYYY')
+        });
     } else {
-        output.natural = null;
-        output.unix = null;
-        res.end(JSON.stringify(output));
+        res.status(400).json({
+            "unix": null,
+            "natural": null
+        });
     }
 });
 module.exports = router;
